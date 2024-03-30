@@ -6,17 +6,18 @@ start /min cmd /C "%~dpnx0"
 goto :EOF
 :Minimized
 
-if exist "%UserProfile%\Videos\Boot.webm" (
-  REM Get screen resolution
-  for /f "tokens=2 delims=," %%x in ('wmic path Win32_VideoController get CurrentHorizontalResolution /value') do set /a "ScreenWidth=%%x"
-  for /f "tokens=2 delims=," %%y in ('wmic path Win32_VideoController get CurrentVerticalResolution /value') do set /a "ScreenHeight=%%y"
+if exist "%UserProfile%\Videos\ffplay.exe" (
+    if exist "%UserProfile%\Videos\Boot.webm" (
 
-  start /B "" "%UserProfile%\Videos\ffplay.exe"  -left 0 -top 0 -x %ScreenWidth% -y %ScreenHeight% -alwaysontop -fullscreen -noborder -autoexit -loglevel quiet -loop 1 "%UserProfile%\Videos\Boot.webm" 2>NUL &
-) Else (
-  echo "Boot.webm not found."
+        start /B "" "%UserProfile%\Videos\ffplay.exe" -left 0 -top 0 -x %ScreenWidth% -y %ScreenHeight% -alwaysontop -fullscreen -noborder -autoexit -loglevel quiet -loop 1 "%UserProfile%\Videos\Boot.webm" 2>NUL
+    ) else (
+        echo "Boot.webm not found."
+    )
+) else (
+    echo "ffplay.exe not found."
 )
 
-start /B %LocalAppData%\Playnite\Playnite.fullscreenapp.exe --hidesplashscreen &
+start /B %LocalAppData%\Playnite\Playnite.fullscreenapp.exe --hidesplashscreen
 timeout /t 2
 start explorer.exe
 call random_boot_movie.bat

@@ -1,4 +1,6 @@
 @echo off
+timeout /t 30
+
 setlocal enabledelayedexpansion
 
 set "sourceFolder=%UserProfile%\Videos\BootVideos"
