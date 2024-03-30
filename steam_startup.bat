@@ -1,3 +1,5 @@
+@echo off
+
 if not "%Minimized%"=="" goto :Minimized
 set Minimized=True
 start /min cmd /C "%~dpnx0"
