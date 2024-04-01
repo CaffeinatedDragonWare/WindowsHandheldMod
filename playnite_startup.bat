@@ -20,4 +20,12 @@ if exist "%UserProfile%\Videos\ffplay.exe" (
 start /B %LocalAppData%\Playnite\Playnite.fullscreenapp.exe --hidesplashscreen
 timeout /t 2
 start explorer.exe
-call random_boot_movie.bat
+
+:check_ffplay
+tasklist /FI "IMAGENAME eq ffplay.exe" 2>NUL | find /I /N "ffplay.exe" >NUL
+if "%ERRORLEVEL%"=="0" (
+    timeout /t 5 /nobreak >nul
+    goto check_ffplay
+) else (
+    call random_boot_movie.bat
+)
