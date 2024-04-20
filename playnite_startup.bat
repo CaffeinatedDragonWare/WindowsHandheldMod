@@ -6,6 +6,10 @@ start /min cmd /C "%~dpnx0"
 goto :EOF
 :Minimized
 
+if exist "C:\Program Files\Handheld Companion\HandheldCompanion.exe" (
+  start /B "" "C:\Program Files\Handheld Companion\HandheldCompanion.exe"
+)
+
 if exist "%UserProfile%\Videos\ffplay.exe" (
     if exist "%UserProfile%\Videos\Boot.webm" (
 
@@ -18,10 +22,11 @@ if exist "%UserProfile%\Videos\ffplay.exe" (
 )
 
 if exist "C:\Program Files\Handheld Companion\HandheldCompanion.exe" (
-  start /B "" "C:\Program Files\Handheld Companion\HandheldCompanion.exe"
+  timeout /t 2
 )
+
 start /B %LocalAppData%\Playnite\Playnite.fullscreenapp.exe --hidesplashscreen
-timeout /t 2
+timeout /t 5
 start explorer.exe
 
 :check_ffplay
