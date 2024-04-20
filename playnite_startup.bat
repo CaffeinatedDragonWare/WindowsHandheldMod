@@ -17,6 +17,9 @@ if exist "%UserProfile%\Videos\ffplay.exe" (
     echo "ffplay.exe not found."
 )
 
+if exist "C:\Program Files\Handheld Companion\HandheldCompanion.exe" (
+  start /B "" "C:\Program Files\Handheld Companion\HandheldCompanion.exe"
+)
 start /B %LocalAppData%\Playnite\Playnite.fullscreenapp.exe --hidesplashscreen
 timeout /t 2
 start explorer.exe
