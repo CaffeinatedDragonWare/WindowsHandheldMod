@@ -6,6 +6,11 @@ start /min cmd /C "%~dpnx0"
 goto :EOF
 :Minimized
 
+REM starts handheld companion before everything else, can be removed or replaced with a different program that maps gamepad controls
+if exist "C:\Program Files\Handheld Companion\HandheldCompanion.exe" (
+  start /B "" "C:\Program Files\Handheld Companion\HandheldCompanion.exe"
+)
+
 REM Replace YOUR LAUNCHER PATH with the path to the launcher of your choice
 start /B "" "YOUR LAUNCHER PATH" &
 
