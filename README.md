@@ -6,5 +6,7 @@ Download one of the startup.bat scripts. If you want to use a boot video, downlo
 To install this mod, open regedit and browse to "Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\". From here set the shell file to the locations of the startup script you downloaded (playnite_startup.bat, steam_startup.bat, startup.bat or cscript "%UserProfile%\Videos\invisible_startup.bat". If you are using startup.bat, you will need to add the path to the launcher you plan to use (Gog, Battle.net, etc.) and set the wait time before the desktop loads according. Restart and enjoy. If you want to unistall this mod, change your shell file back to explorer.exe
 
 Steam Tutorial: https://youtu.be/n5OU6kmUP78
+
 Playnite Tutorial: Coming soon
+
 Custom Launcher Tutorial: Coming soon
