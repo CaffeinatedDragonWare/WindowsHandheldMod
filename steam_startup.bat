@@ -19,7 +19,7 @@ if exist "%UserProfile%\Videos\ffplay.exe" (
     echo "ffplay.exe not found."
 )
 
-timeout /t 2
+timeout /t 5
 start explorer.exe
 
 :check_ffplay
