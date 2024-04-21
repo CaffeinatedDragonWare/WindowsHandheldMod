@@ -6,10 +6,6 @@ start /min cmd /C "%~dpnx0"
 goto :EOF
 :Minimized
 
-if exist "C:\Program Files\Handheld Companion\HandheldCompanion.exe" (
-  start /B "" "C:\Program Files\Handheld Companion\HandheldCompanion.exe"
-)
-
 if exist "%UserProfile%\Videos\ffplay.exe" (
     if exist "%UserProfile%\Videos\Boot.webm" (
 
