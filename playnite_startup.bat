@@ -9,7 +9,7 @@ goto :EOF
 if exist "%UserProfile%\Videos\ffplay.exe" (
     if exist "%UserProfile%\Videos\Boot.webm" (
 
-        start /B "" "%UserProfile%\Videos\ffplay.exe" -left 0 -top 0 -x %ScreenWidth% -y %ScreenHeight% -alwaysontop -fullscreen -noborder -autoexit -loglevel quiet -loop 1 "%UserProfile%\Videos\Boot.webm" 2>NUL
+        start /B "" "%UserProfile%\Videos\ffplay.exe" -left 0 -top 0 -alwaysontop -fs -noborder -autoexit -loglevel quiet -loop 1 "%UserProfile%\Videos\Boot.webm" 2>NUL
     ) else (
         echo "Boot.webm not found."
     )
