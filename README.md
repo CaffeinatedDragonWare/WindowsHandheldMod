@@ -6,6 +6,7 @@ To install this mod, open regedit and browse to "Computer\HKEY_Current_User\SOFT
 
 Steam Tutorial: 
 Windows 10 - https://youtu.be/n5OU6kmUP78
+
 Windows 11 - https://www.youtube.com/watch?v=OrelbRatp8o
 
 Playnite Tutorial: Coming soon
