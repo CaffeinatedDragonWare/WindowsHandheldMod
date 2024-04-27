@@ -19,9 +19,6 @@ if exist "%UserProfile%\Videos\ffplay.exe" (
     echo "ffplay.exe not found."
 )
 
-timeout /t 5
-start explorer.exe
-
 :check_ffplay
 tasklist /FI "IMAGENAME eq ffplay.exe" 2>NUL | find /I /N "ffplay.exe" >NUL
 if "%ERRORLEVEL%"=="0" (
@@ -30,3 +27,6 @@ if "%ERRORLEVEL%"=="0" (
 ) else (
     call random_boot_movie.bat
 )
+
+timeout /t 5
+start explorer.exe
