@@ -26,6 +26,7 @@ if "%ERRORLEVEL%"=="0" (
     goto check_ffplay
 ) else (
     call random_boot_movie.bat
-    timeout /t 3
-    start explorer.exe
 )
+
+timeout /t 10
+start explorer.exe
