@@ -33,11 +33,20 @@ if "%ERRORLEVEL%"=="0" (
     call random_boot_movie.bat
 )
 
-:check_steam
-tasklist /FI "IMAGENAME eq Steam.exe" /FI "WINDOWTITLE eq *Steam Big Picture Mode*" 2>NUL
+:check_steam_big_picture
+tasklist /FI "IMAGENAME eq Steam.exe" /FI "WINDOWTITLE eq "Steam" 2>NUL
 if "%ERRORLEVEL%"=="0" (
-    timeout /t 5 /nobreak >nul
+    timeout /t 2 /nobreak >nul
     goto check_steam
+) else (
+    start explorer.exe
+)
+
+:check_steam
+tasklist /FI "IMAGENAME eq Steam.exe" /FI "WINDOWTITLE eq "Steam Big Picture Mode"" 2>NUL
+if "%ERRORLEVEL%"=="0" (
+    timeout /t 2 /nobreak >nul
+    goto check_steam_big_picture
 ) else (
     start explorer.exe
 )
