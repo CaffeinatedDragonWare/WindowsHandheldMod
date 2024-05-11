@@ -22,6 +22,7 @@ if exist "%UserProfile%\Videos\ffplay.exe" (
     echo "ffplay.exe not found."
 )
 
+timeout /t 2 /nobreak >nul
 start /B "" "C:\Program Files (x86)\Steam\Steam.exe" -noverifyfiles &
 
 :check_ffplay
