@@ -11,8 +11,6 @@ if not exist "%UserProfile%\Videos\invisible_startup.vbs" (
 
 :Minimized
 
-start /B "" "C:\Program Files (x86)\Steam\Steam.exe" -noverifyfiles &
-
 if exist "%UserProfile%\Videos\ffplay.exe" (
     if exist "%UserProfile%\Videos\Boot.webm" (
 
@@ -23,6 +21,8 @@ if exist "%UserProfile%\Videos\ffplay.exe" (
 ) else (
     echo "ffplay.exe not found."
 )
+
+start /B "" "C:\Program Files (x86)\Steam\Steam.exe" -noverifyfiles &
 
 :check_ffplay
 tasklist /FI "IMAGENAME eq ffplay.exe" 2>NUL | find /I /N "ffplay.exe" >NUL
@@ -36,7 +36,7 @@ if "%ERRORLEVEL%"=="0" (
 :check_steam_big_picture
 tasklist /FI "IMAGENAME eq Steam.exe" /FI "WINDOWTITLE eq "Steam" 2>NUL
 if "%ERRORLEVEL%"=="0" (
-    timeout /t 2 /nobreak >nul
+    timeout /t 5 /nobreak >nul
     goto check_steam
 ) else (
     start explorer.exe
@@ -45,7 +45,7 @@ if "%ERRORLEVEL%"=="0" (
 :check_steam
 tasklist /FI "IMAGENAME eq Steam.exe" /FI "WINDOWTITLE eq "Steam Big Picture Mode"" 2>NUL
 if "%ERRORLEVEL%"=="0" (
-    timeout /t 2 /nobreak >nul
+    timeout /t 5 /nobreak >nul
     goto check_steam_big_picture
 ) else (
     start explorer.exe
