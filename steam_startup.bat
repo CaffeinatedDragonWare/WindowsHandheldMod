@@ -23,7 +23,7 @@ if exist "%UserProfile%\Videos\ffplay.exe" (
 )
 
 timeout /t 2 /nobreak >nul
-start /B "" "C:\Program Files (x86)\Steam\Steam.exe" -noverifyfiles &
+start /B "" "C:\Program Files (x86)\Steam\Steam.exe" -noverifyfiles -gamepadui &
 
 :check_ffplay
 tasklist /FI "IMAGENAME eq ffplay.exe" 2>NUL | find /I /N "ffplay.exe" >NUL
@@ -35,15 +35,6 @@ if "%ERRORLEVEL%"=="0" (
 )
 
 :check_steam_big_picture
-tasklist /FI "IMAGENAME eq Steam.exe" /FI "WINDOWTITLE eq "Steam" 2>NUL
-if "%ERRORLEVEL%"=="0" (
-    timeout /t 5 /nobreak >nul
-    goto check_steam
-) else (
-    start explorer.exe
-)
-
-:check_steam
 tasklist /FI "IMAGENAME eq Steam.exe" /FI "WINDOWTITLE eq "Steam Big Picture Mode"" 2>NUL
 if "%ERRORLEVEL%"=="0" (
     timeout /t 5 /nobreak >nul
