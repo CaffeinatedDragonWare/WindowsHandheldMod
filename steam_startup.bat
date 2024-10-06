@@ -31,7 +31,7 @@ if "%ERRORLEVEL%"=="0" (
     timeout /t 5 /nobreak >nul
     goto check_ffplay
 ) else (
-    call random_boot_movie.bat
+    call "%UserProfile%\Videos\random_boot_movie.bat"
 )
 
 :check_steam_big_picture

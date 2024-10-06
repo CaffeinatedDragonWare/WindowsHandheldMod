@@ -11,7 +11,7 @@ if not exist "%UserProfile%\Videos\invisible_startup.vbs" (
 
 :Minimized
 
-start /B %LocalAppData%\Playnite\Playnite.fullscreenapp.exe --hidesplashscreen
+start /B "%LocalAppData%\Playnite\Playnite.fullscreenapp.exe" --hidesplashscreen
 
 if exist "%UserProfile%\Videos\ffplay.exe" (
     if exist "%UserProfile%\Videos\Boot.webm" (
@@ -30,7 +30,7 @@ if "%ERRORLEVEL%"=="0" (
     timeout /t 5 /nobreak >nul
     goto check_ffplay
 ) else (
-    call random_boot_movie.bat
+    call "%UserProfile%\Videos\random_boot_movie.bat"
 )
 
 timeout /t 5
