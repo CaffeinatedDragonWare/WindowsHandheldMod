@@ -14,6 +14,8 @@ Elseif objFSO.FileExists(Playnite) Then
 Elseif objFSO.FileExists(Custom) Then
     objShell.Run Custom, 0, True
 Else
+    ' WindowStyle 1 = normal
+    objShell.Run "C:\Windows\explorer.exe", 1, True
     WScript.Echo "No start up file found. Please download a startup.bat file and put it in your videos folder."
 End if
 
