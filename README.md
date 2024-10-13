@@ -2,7 +2,6 @@
 
 This mod temporarily replaces Windows Explorer with a launcher of your choosing, such as Steam Big Picture Mode or Playnite and plays a boot movie before launching.
 
-
 ## Tutorials
 
 - [Steam Tutorial - Windows 10](https://youtu.be/n5OU6kmUP78)
