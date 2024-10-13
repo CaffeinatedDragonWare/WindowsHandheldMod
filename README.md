@@ -16,9 +16,11 @@ This mod temporarily replaces Windows Explorer with a launcher of your choosing,
 	- `steam_startup.bat` for Steam
 
 2. For boot video support:
-	1. Download `ffplay.exe` from [here](https://drive.google.com/file/d/1OIdAMXLamuoLGduNiyXLEOcOVNn95Tf5/view?usp=sharing)
-	2. Download a boot movie (`.webm` format) from a site like [steamdeckrepo](https://steamdeckrepo.com/)
-	3. Place `ffplay.exe` and the boot movie (renamed to `boot.webm`) in your `Videos` folder (`%UserProfile%\Videos`)
+	1. Install ffmpeg essentials
+		- through `winget`, if you have it: `winget install "FFmpeg (Essentials Build)"`
+		- manually by downloading https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip and extracting `ffmpeg-7.1-essentials_build\bin` to your `Videos` folder (`%UserProfile%\Videos`)
+	3. Download a boot movie (`.webm` format) from a site like [steamdeckrepo](https://steamdeckrepo.com/)
+	4. Place the boot movie (renamed to `boot.webm`) in your `Videos` folder (`%UserProfile%\Videos`)
 
 2. For multiple boot movies:
 	1. Create a folder named `bootvideos` inside your `Videos` folder
