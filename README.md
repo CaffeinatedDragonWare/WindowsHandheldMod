@@ -38,7 +38,7 @@ This mod temporarily replaces Windows Explorer with a launcher of your choosing,
 	8. Double click the new string value
 	9. change the value data to
 		- `wscript "%UserProfile%\Videos\invisible_startup.vbs"` (Antivirus won't like this, you will have to add an exception)
-		- Or, set it to the full path of your chosen startup script (click on the script in File Explorer and press `ctrl`+`C` to copy the path)
+		- Or, set it to the full path of your chosen startup script (click on the script in File Explorer and press `ctrl`+`shift`+`C` to copy the path)
 
 4. If using `startup.bat`, edit the script to set the path to your desired launcher and adjust the wait time
 
