@@ -48,6 +48,16 @@ for %%F in ("%directory%\*.bat") do (
 set /p userInput=Which launcher would you like to use? [steam, playnite or custom]:
 echo .
 
+:BootMovie
+:: Prompt user for input
+if /i "!userInput!"=="steam" (
+  set /p Bootmoviepref=Do you want to use my custom boot movie solution? If no, you can still use the default boot movie functionality built into Steam. [y or n]:
+
+) else (
+  set /p Bootmoviepref=Do you want to have a custom boot movie on startup?  [y or n]:
+)
+echo .
+
 :: Handle different input options
 if /i "!userInput!"=="steam" (
   IF EXIST "C:\Program Files (x86)\Steam\Steam.exe" (
@@ -56,11 +66,14 @@ if /i "!userInput!"=="steam" (
     echo .
     set "valid_input=true"
     set "script=steam_startup.bat"
-    pause
-    echo .
-    echo To avoid seeing two boot movies on start up, we will need to delete the default Steam boot movies. Please type y and hit enter.
-    echo .
-    del "C:\Program Files (x86)\Steam\steamui\movies"
+
+    if /i "!Bootmoviepref!" == "y" (
+      pause
+      echo .
+      echo To avoid seeing two boot movies on start up, we will need to delete the default Steam boot movies. Please type y and hit enter.
+      echo .
+      del "C:\Program Files (x86)\Steam\steamui\movies"
+    )
 
     :: Adds -noverifyfiles to default Steam shortcuts
     echo .
@@ -182,62 +195,81 @@ if "!valid_input!"=="true" (
     echo Initializing setup...\
     echo .
 
-    echo Creating BootVideo Folder...
-    echo .
-
-    :: Create BootVideos directory if it does not exist.
-    if not exist "%UserProfile%\Videos\BootVideos" (
-      mkdir "%UserProfile%\Videos\BootVideos"
-    ) else (
-      echo You already have a BootVideos folder in your Videos folder.
+    if /i "!Bootmoviepref!" == "y" (
+      echo Creating BootVideo Folder...
       echo .
+
+      :: Create BootVideos directory if it does not exist.
+      if not exist "%UserProfile%\Videos\BootVideos" (
+        mkdir "%UserProfile%\Videos\BootVideos"
+      ) else (
+        echo You already have a BootVideos folder in your Videos folder.
+        echo .
+      )
+
+      echo Copying random_boot_movie.bat file
+      echo .
+      :: Copy the random_boot_movie.bat file
+      copy "!directory!\random_boot_movie.bat" "%UserProfile%\Videos\" >nul
+
+      :: Checks if ffplay.exe exists in the Videos folder
+      REM If ffplay does not exist.
+      REM The script downloads ffplay using PowerShell and extracts it.
+
+      echo Downloading ffplay
+      echo .
+
+      if exist "%UserProfile%\Videos\ffplay.exe" (
+        echo ffplay.exe already exists in your Videos folder.
+      ) else (
+        echo If you see a pop up from your antivirus, select Allow.
+        echo .
+        powershell -Command "Invoke-WebRequest -Uri 'https://drive.usercontent.google.com/download?id=1OIdAMXLamuoLGduNiyXLEOcOVNn95Tf5&export=download&authuser=0&confirm=t&uuid=7e36e0f2-70b3-4fc6-bc19-5490905ba2d9' -OutFile '%UserProfile%\videos\ffplay.zip'; Expand-Archive -Path "%UserProfile%\videos\ffplay.zip" -DestinationPath "%userprofile%\videos" -force"
+        :: Deletes ffplay.zip
+        del "%UserProfile%\Videos\ffplay.zip"
+      )
+
+      echo .
+      REM Downloads the default boot movie to the BootVideos folder using PowerShell if it doesn't already exist in the BootVideos folder.
+
+      echo Downloading default boot movie from steamdeckrepo
+      echo .
+
+      if not exist "%UserProfile%\Videos\BootVideos\boot.webm" (
+        echo Downloading default boot movie to BootVideos folder
+        echo .
+        powershell -Command "Invoke-WebRequest -Uri 'https://steamdeckrepo.com/post/download/ENb0E' -OutFile '%UserProfile%\Videos\BootVideos\boot.webm'"
+      ) else (
+        echo You already have a boot movie downloaded.
+        echo .
+      )
+
+      echo Copying boot.webm file to Videos folder.
+      echo .
+
+      if not exist "%UserProfile%\Videos\boot.webm" (
+        copy "%UserProfile%\Videos\BootVideos\boot.webm" "%UserProfile%\Videos\" >nul
+        echo Created a copy of the boot movie in the Videos folder.
+      ) else (
+        echo Boot.webm already exists in your Videos folder.
+        echo .
+      )
     )
 
-    echo Copying random_boot_movie.bat file
-    echo .
-    :: Copy the random_boot_movie.bat file
-    copy "!directory!\random_boot_movie.bat" "%UserProfile%\Videos\" >nul
-
-    :: Checks if ffplay.exe exists in the Videos folder
-    REM If ffplay does not exist.
-    REM The script downloads ffplay using PowerShell and extracts it.
-
-    echo Downloading ffplay
+    REM Autohides taskbar
+    powershell -command "&{$p='HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3';$v=(Get-ItemProperty -Path $p).Settings;$v[8]=1;&Set-ItemProperty -Path $p -Name Settings -Value $v;&Stop-Process -f -ProcessName explorer}"
+    echo Turned on auto hide taskbar.
     echo .
 
-    if exist "%UserProfile%\Videos\ffplay.exe" (
-      echo ffplay.exe already exists in your Videos folder.
-    ) else (
-      echo If you see a pop up from your antivirus, select Allow.
+    :: Removes VBS exclusion if the VBS file exists
+    if /i "%status%"=="Running" (
+      echo Windows Defender is running
+      powershell -Command "if ((Get-MpPreference).ExclusionProcess -contains '%UserProfile%\Videos\invisible_startup.vbs') { Remove-MpPreference -ExclusionProcess '%UserProfile%\Videos\invisible_startup.vbs' }"
+      echo VBS script exception removed.
       echo .
-      powershell -Command "Invoke-WebRequest -Uri 'https://drive.usercontent.google.com/download?id=1OIdAMXLamuoLGduNiyXLEOcOVNn95Tf5&export=download&authuser=0&confirm=t&uuid=7e36e0f2-70b3-4fc6-bc19-5490905ba2d9' -OutFile '%UserProfile%\videos\ffplay.zip'; Expand-Archive -Path "%UserProfile%\videos\ffplay.zip" -DestinationPath "%userprofile%\videos" -force"
-      :: Deletes ffplay.zip
-      del "%UserProfile%\Videos\ffplay.zip"
-    )
-
-    echo .
-    REM Downloads the default boot movie to the BootVideos folder using PowerShell if it doesn't already exist in the BootVideos folder.
-
-    echo Downloading default boot movie from steamdeckrepo
-    echo .
-
-    if not exist "%UserProfile%\Videos\BootVideos\boot.webm" (
-      echo Downloading default boot movie to BootVideos folder
-      echo .
-      powershell -Command "Invoke-WebRequest -Uri 'https://steamdeckrepo.com/post/download/ENb0E' -OutFile '%UserProfile%\Videos\BootVideos\boot.webm'"
     ) else (
-      echo You already have a boot movie downloaded.
-      echo .
-    )
-
-    echo Copying boot.webm file to Videos folder.
-    echo .
-
-    if not exist "%UserProfile%\Videos\boot.webm" (
-      copy "%UserProfile%\Videos\BootVideos\boot.webm" "%UserProfile%\Videos\" >nul
-      echo Created a copy of the boot movie in the Videos folder.
-    ) else (
-      echo Boot.webm already exists in your Videos folder.
+      echo Windows Defender is not running.
+      echo If you manually set an anitivirus exception for the VBS script, feel free to remove it.
       echo .
     )
 

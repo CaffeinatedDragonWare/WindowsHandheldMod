@@ -34,8 +34,9 @@ echo .
 echo The Explorer.exe is now the Windows Shell.
 echo .
 
-REM Return taskbar to normal (Test in Win 11)
+REM Return taskbar to normal
 powershell -command "&{$p='HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3';$v=(Get-ItemProperty -Path $p).Settings;$v[8]=0;&Set-ItemProperty -Path $p -Name Settings -Value $v;&Stop-Process -f -ProcessName explorer}"
+start explorer.exe
 echo Turned off auto hide taskbar.
 echo .
 
