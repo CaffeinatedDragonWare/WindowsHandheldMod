@@ -11,7 +11,7 @@ if not exist "%UserProfile%\Videos\invisible_startup.vbs" (
 
 :Minimized
 
-start /B "%LocalAppData%\Playnite\Playnite.fullscreenapp.exe" --hidesplashscreen
+start /B "" "%LocalAppData%\Playnite\Playnite.fullscreenapp.exe" --hidesplashscreen
 
 if exist "%UserProfile%\Videos\ffplay.exe" (
     if exist "%UserProfile%\Videos\Boot.webm" (
