@@ -260,6 +260,8 @@ if "!valid_input!"=="true" (
     powershell -command "&{$p='HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3';$v=(Get-ItemProperty -Path $p).Settings;$v[8]=1;&Set-ItemProperty -Path $p -Name Settings -Value $v;&Stop-Process -f -ProcessName explorer}"
     echo Turned on auto hide taskbar.
     echo .
+    start explorer.exe
+    echo Restarted Windows Explorer
 
     :: Removes VBS exclusion if the VBS file exists
     if /i "%status%"=="Running" (
