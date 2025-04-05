@@ -7,9 +7,11 @@ if not exist "%UserProfile%\Videos\invisible_startup.vbs" (
     start /min cmd /C "%~dpnx0"
     goto :EOF
 )
+
 :Minimized
 REM Replace YOUR LAUNCHER PATH with the path to the launcher of your choice
-start /B "C:\Users\Lisa\Downloads\WindowsHandheldMod-main\path test.bat" -test
+start /B "" "YOUR LAUNCHER PATH" &
+
 if exist "%UserProfile%\Videos\ffplay.exe" (
     if exist "%UserProfile%\Videos\Boot.webm" (
         start /B "" "%UserProfile%\Videos\ffplay.exe" -left 0 -top 0 -alwaysontop -fs -noborder -autoexit -loglevel quiet -loop 1 "%UserProfile%\Videos\Boot.webm" 2>NUL
