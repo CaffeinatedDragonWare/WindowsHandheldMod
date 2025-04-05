@@ -45,7 +45,7 @@ for %%F in ("%directory%\*.bat") do (
 
 :LauncherSelection
 :: Prompt user for input
-set /p userInput=Which launcher would you like to use? [steam, playnite or custom]:
+set /p userInput=Which launcher would you like to use? [steam or playnite]:
 echo .
 
 :BootMovie
@@ -117,75 +117,11 @@ if /i "!userInput!"=="steam" (
       echo Please install it in the default location or select a different option.
       echo .
       GOTO :LauncherSelection
-    )
-
-) else if /i "!userInput!"=="custom" (
-        copy "!directory!\startup.bat" "%UserProfile%\Videos"
-        echo startup.bat moved to Videos folder.
-        echo .
-        set "valid_input=true"
-        set "script=startup.bat"
-
-        :: Prompt user for launcher path
-        :LauncherPath
-        set /p custompath=Please paste the path to the launcher you wish to use. Here is an example: "C:\Program Files (x86)\Steam\Steam.exe":
-
-        IF EXIST "!custompath!" (
-            GOTO :LaunchArg
-        ) ELSE (
-            echo "!custompath! is not a valid path. Please enter a valid path."
-            echo .
-            GOTO :LauncherPath
-        )
-
-        :LaunchArg
-        set /p args=If you have a launch command, please enter it now. Otherwise, leave this blank and hit enter. Here is an example: -bigpicture :
-
-        echo !custompath! !args!
-        echo .
-
-        :: Accounts for no arguments
-        REM No Arguments
-        if /i "!args!" == "" (
-          set "newline=start /B "" !custompath!"
-        REM Arguments
-        ) else (
-          set "newline=start /B !custompath! !args!"
-        )
-
-        powershell -command "curl -o startup.bat https://raw.githubusercontent.com/CaffeinatedDragonWare/WindowsHandheldMod/refs/heads/main/startup.bat"
-
-        REM Define the input file and a temporary output file
-        set "inputFile=startup.bat"
-        set "tempFile=temp.txt"
-
-        :replace_path
-        REM Ensure the temp file is empty and perform the replacement
-        > "%tempFile%" (
-            for /f "delims=" %%i in ('type "%inputFile%"') do (
-                set "line=%%i"
-                REM Enable delayed variable expansion
-                setlocal enabledelayedexpansion
-
-                REM Replace the placeholder line with the new path
-                set "line=!line:start /B "" "YOUR LAUNCHER PATH" &=%newline%!"
-
-                REM Output the modified line to the temp file
-                echo !line!
-                endlocal
-            )
-        )
-
-        REM Overwrite the original file with the modified content
-        move /y "!tempFile!" "!inputFile!"
-
-        echo Startup.bat updated
-        echo .
 
 ) else (
-    echo No valid option selected. Please try again.
-    echo .
-    GOTO :LauncherSelection
+  echo No valid option selected. Please try again.
+  echo .
+  GOTO :LauncherSelection
 )
 
 :: Check if valid_input is true
