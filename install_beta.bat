@@ -45,7 +45,7 @@ for %%F in ("%directory%\*.bat") do (
 
 :LauncherSelection
 :: Prompt user for input
-set /p userInput=Which launcher would you like to use? [steam or playnite]:
+set /p userInput=Which launcher would you like to use? [steam, playnite or custom]:
 echo .
 
 :BootMovie
@@ -59,7 +59,21 @@ if /i "!userInput!"=="steam" (
 echo .
 
 :: Handle different input options
+if /i "!userInput!"=="custom" (
+    GOTO :Custom
+)
+if /i "!userInput!"=="playnite" (
+    GOTO :Playnite
+)
 if /i "!userInput!"=="steam" (
+    GOTO :Steam
+) else (
+    echo No valid option selected. Please try again.
+    echo .
+    GOTO :LauncherSelection
+)
+
+:Steam
   IF EXIST "C:\Program Files (x86)\Steam\Steam.exe" (
     copy "%directory%\steam_startup.bat" "%UserProfile%\Videos"
     echo steam_startup.bat moved to Videos folder.
@@ -103,8 +117,9 @@ if /i "!userInput!"=="steam" (
     GOTO :LauncherSelection
   )
 
-) else if /i "!userInput!"=="playnite" (
+  GOTO :validation_check
 
+:Playnite
     IF EXIST "%LocalAppData%\Playnite\Playnite.fullscreenapp.exe" (
       copy "!directory!\playnite_startup.bat" "%UserProfile%\Videos"
       echo playnite_startup.bat moved to Videos folder.
@@ -117,13 +132,79 @@ if /i "!userInput!"=="steam" (
       echo Please install it in the default location or select a different option.
       echo .
       GOTO :LauncherSelection
+    )
 
-) else (
-  echo No valid option selected. Please try again.
-  echo .
-  GOTO :LauncherSelection
-)
+    GOTO :validation_check
 
+:Custom
+    echo .
+    set "valid_input=true"
+    set "script=startup.bat"
+
+    :: Prompt user for launcher path
+    :LPath
+    set /p custompath=Please paste the path to the launcher you wish to use. Here is an example: "C:\Program Files (x86)\Steam\Steam.exe":
+
+    set inputString=!custompath!
+    set inputString=!inputString:"=!
+    set custompath=!inputString!
+
+    IF NOT EXIST "!custompath!" (
+        echo "!custompath! is not a valid path. Please enter a valid path."
+        echo .
+        GOTO :Custom
+    )
+
+    :LaunchArg
+    set /p args=If you have a launch command, please enter it now. Otherwise, leave this blank and hit enter. (Example: -bigpicture):
+    echo %custompath% %args%
+
+    :: Accounts for no arguments
+    if /i "%args%" == "" (
+      echo No args
+      set "newline=start /B '' '%custompath%'"
+    ) else (
+      echo Args
+      set "newline=start /B '%custompath%' %args%"
+    )
+
+    powershell -command "curl -o %directory%\startup.bat https://raw.githubusercontent.com/CaffeinatedDragonWare/WindowsHandheldMod/refs/heads/main/startup.bat"
+
+    REM Define the input file and a temporary output file
+    set "inputFile=%directory%\startup.bat"
+    set "tempFile=%directory%\temp.txt"
+
+    :replace_path
+    REM Ensure the temp file is empty and perform the replacement
+    > "%tempFile%" (
+        for /f "delims=" %%i in ('type "%inputFile%"') do (
+            set "line=%%i"
+            REM Enable delayed variable expansion
+            setlocal enabledelayedexpansion
+
+            REM Replace the placeholder line with the new path
+            set "line=!line:start /B "" "YOUR LAUNCHER PATH" &=%newline%!"
+
+            REM Output the modified line to the temp file
+            echo !line!
+            endlocal
+        )
+    )
+
+    REM Overwrite the original file with the modified content
+    move /y "%tempFile%" "%inputFile%"
+
+    powershell.exe -Command "$fileContent = Get-Content '%directory%\startup.bat'; $fileContent = $fileContent -replace \"'\", '\"'; Set-Content '%directory%\startup.bat' -Value $fileContent"
+
+    echo Startup.bat updated
+    echo .
+    copy "!directory!\startup.bat" "%UserProfile%\Videos"
+    echo startup.bat moved to Videos folder.
+    echo.
+    pause
+    GOTO :validation_check
+
+:validation_check
 :: Check if valid_input is true
 if "!valid_input!"=="true" (
 
