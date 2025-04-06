@@ -21,6 +21,17 @@ setlocal enabledelayedexpansion
     exit
   )
 
+REM Deletes files in Videos folder but leaves the BootVideos folder
+set "files=%UserProfile%\Videos\playnite_startup.bat %UserProfile%\Videos\steam_startup.bat %UserProfile%\Videos\startup.bat %UserProfile%\Videos\random_boot_movie.bat %UserProfile%\Videos\ffplay.exe %UserProfile%\Videos\previous_boot_video.log %UserProfile%\Videos\boot.webm %UserProfile%\Videos\invisible_startup.vbs"
+
+for %%f in (!files!) do (
+    if exist "%%f" (
+        echo Deleting %%f
+        echo .
+        del "%%f"
+    )
+)
+
 REM Set the Shell entry in the Winlogon registry key to default (explorer.exe)
 echo .
 echo Reverting Windows shell back to Windows Explorer.
@@ -76,17 +87,6 @@ IF EXIST "%desktopShortcutPath%" (
 ) ELSE (
     echo Desktop shortcut does not exist at "%desktopShortcutPath%".
     echo .
-)
-
-REM Deletes files in Videos folder but leaves the BootVideos folder
-set "files=%UserProfile%\Videos\playnite_startup.bat %UserProfile%\Videos\steam_startup.bat %UserProfile%\Videos\startup.bat %UserProfile%\Videos\random_boot_movie.bat %UserProfile%\Videos\ffplay.exe %UserProfile%\Videos\previous_boot_video.log %UserProfile%\Videos\boot.webm %UserProfile%\Videos\invisible_startup.vbs"
-
-for %%f in (!files!) do (
-    if exist "%%f" (
-        echo Deleting %%f
-        echo .
-        del "%%f"
-    )
 )
 
 pause
