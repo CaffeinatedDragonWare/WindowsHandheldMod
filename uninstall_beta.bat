@@ -36,7 +36,7 @@ REM Set the Shell entry in the Winlogon registry key to default (explorer.exe)
 echo .
 echo Reverting Windows shell back to Windows Explorer.
 echo .
-reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d explorer.exe /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d explorer.exe /f
 echo .
 
 REM Delete the Shell entry from the Winlogon registry key
