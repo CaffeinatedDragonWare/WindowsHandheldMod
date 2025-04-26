@@ -87,28 +87,28 @@ if /i "!userInput!"=="steam" (
       echo To avoid seeing two boot movies on start up, we will need to delete the default Steam boot movies. Please type y and hit enter.
       echo .
       del "C:\Program Files (x86)\Steam\steamui\movies"
+
+      :: Adds -noverifyfiles to default Steam shortcuts
+      echo .
+      echo Your Steam Shortcuts will be updated to include the launch option -noverifyfiles. This will prevent Steam from re-downloading these files.
+      echo.
+
+      :: Sets shortcut Variables
+      set "shortcutPath=C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Steam\Steam.lnk"
+      set "exePath=C:\Program Files (x86)\Steam\Steam.exe"
+      set "arguments=-noverifyfiles"
+
+      :: Calls PowerShell to Update the Application Shortcut
+      powershell -Command "$shortcut = (New-Object -ComObject WScript.Shell).CreateShortcut('!shortcutPath!'); $shortcut.TargetPath = '!exePath!'; $shortcut.Arguments = '!arguments!'; $shortcut.Save()"
+
+      :: Checks if the Desktop Shortcut exists
+      IF EXIST "C:\Users\Public\Desktop\Steam.lnk" (
+        set "shortcutPath=C:\Users\Public\Desktop\Steam.lnk"
+      )
+
+      :: Calls PowerShell to Update the Desktop Shortcut
+      powershell -Command "$shortcut = (New-Object -ComObject WScript.Shell).CreateShortcut('!shortcutPath!'); $shortcut.TargetPath = '!exePath!'; $shortcut.Arguments = '!arguments!'; $shortcut.Save()"
     )
-
-    :: Adds -noverifyfiles to default Steam shortcuts
-    echo .
-    echo Your Steam Shortcuts will be updated to include the launch option -noverifyfiles. This will prevent Steam from re-downloading these files.
-    echo.
-
-    :: Sets shortcut Variables
-    set "shortcutPath=C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Steam\Steam.lnk"
-    set "exePath=C:\Program Files (x86)\Steam\Steam.exe"
-    set "arguments=-noverifyfiles"
-
-    :: Calls PowerShell to Update the Application Shortcut
-    powershell -Command "$shortcut = (New-Object -ComObject WScript.Shell).CreateShortcut('!shortcutPath!'); $shortcut.TargetPath = '!exePath!'; $shortcut.Arguments = '!arguments!'; $shortcut.Save()"
-
-    :: Checks if the Desktop Shortcut exists
-    IF EXIST "C:\Users\Public\Desktop\Steam.lnk" (
-      set "shortcutPath=C:\Users\Public\Desktop\Steam.lnk"
-    )
-
-    :: Calls PowerShell to Update the Desktop Shortcut
-    powershell -Command "$shortcut = (New-Object -ComObject WScript.Shell).CreateShortcut('!shortcutPath!'); $shortcut.TargetPath = '!exePath!'; $shortcut.Arguments = '!arguments!'; $shortcut.Save()"
 
   ) ELSE (
     echo Steam is either not installed or it is not installed in the default location.
