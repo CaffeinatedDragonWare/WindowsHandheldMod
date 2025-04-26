@@ -213,7 +213,7 @@ if "!valid_input!"=="true" (
     echo .
 
     if /i "!Bootmoviepref!" == "y" (
-      echo Creating BootVideo Folder...
+      echo Creating BootVideos Folder...
       echo .
 
       :: Create BootVideos directory if it does not exist.
