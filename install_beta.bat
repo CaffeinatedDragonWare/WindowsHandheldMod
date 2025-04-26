@@ -43,6 +43,25 @@ for %%F in ("%directory%\*.bat") do (
     powershell -Command "Unblock-File -Path '%%F'"
 )
 
+REM Deletes any start up scripts found in the Videos folder to avoid conflicts
+IF EXIST "%UserProfile%\Videos\steam_startup.bat" (
+  echo Found steam_startup.bat in the Videos folder.
+  echo Deleting it to prevent conflicts.
+  del %UserProfile%\Videos\steam_startup.bat
+)
+
+IF EXIST "%UserProfile%\Videos\playnite_startup.bat" (
+  echo Found playnite_startup.bat in the Videos folder.
+  echo Deleting it to prevent conflicts.
+  del %UserProfile%\Videos\playnite_startup.bat
+)
+
+IF EXIST "%UserProfile%\Videos\startup.bat" (
+  echo Found startup.bat in the Videos folder.
+  echo Deleting it to prevent conflicts.
+  del %UserProfile%\Videos\playnite_startup.bat
+)
+
 :LauncherSelection
 :: Prompt user for input
 set /p userInput=Which launcher would you like to use? [steam, playnite or custom]:
