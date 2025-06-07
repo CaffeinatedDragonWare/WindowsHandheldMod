@@ -197,11 +197,9 @@ if /i "!userInput!"=="steam" (
 
     :: Accounts for no arguments
     if /i "%args%" == "" (
-      echo No args
       set "newline=start /B '' '%custompath%'"
     ) else (
-      echo Args
-      set "newline=start /B '%custompath%' %args%"
+      set "newline=start /B '' '%custompath%' %args%"
     )
 
     powershell -command "curl -o %directory%\startup.bat https://raw.githubusercontent.com/CaffeinatedDragonWare/WindowsHandheldMod/refs/heads/main/startup.bat"
