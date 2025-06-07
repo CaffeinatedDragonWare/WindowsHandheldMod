@@ -67,6 +67,21 @@ IF EXIST "%UserProfile%\Videos\startup.bat" (
 set /p userInput=Which launcher would you like to use? [steam, playnite or custom]:
 echo .
 
+:: Handle different input options
+if /i "!userInput!"=="custom" (
+    GOTO :BootMovie
+)
+if /i "!userInput!"=="playnite" (
+    GOTO :BootMovie
+)
+if /i "!userInput!"=="steam" (
+    GOTO :BootMovie
+) else (
+    echo No valid option selected. Please try again.
+    echo .
+    GOTO :LauncherSelection
+)
+
 :BootMovie
 :: Prompt user for input
 if /i "!userInput!"=="steam" (
