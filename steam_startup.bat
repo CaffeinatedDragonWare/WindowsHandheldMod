@@ -40,5 +40,6 @@ if "%ERRORLEVEL%"=="0" (
     timeout /t 5 /nobreak >nul
     goto check_steam_big_picture
 ) else (
+    timeout /t 5 /nobreak >nul
     start explorer.exe
 )
