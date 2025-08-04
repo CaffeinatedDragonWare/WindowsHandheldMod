@@ -71,10 +71,25 @@ echo .
 if /i "!userInput!"=="custom" (
     GOTO :BootMovie
 )
+
+:: Handle different input options
+if /i "!userInput!"=="c" (
+    GOTO :BootMovie
+)
+
 if /i "!userInput!"=="playnite" (
     GOTO :BootMovie
 )
+
+if /i "!userInput!"=="p" (
+    GOTO :BootMovie
+)
+
 if /i "!userInput!"=="steam" (
+    GOTO :BootMovie
+)
+
+if /i "!userInput!"=="s" (
     GOTO :BootMovie
 ) else (
     echo No valid option selected. Please try again.
@@ -391,3 +406,4 @@ pause
 
 :: End the script
 endlocal
+
