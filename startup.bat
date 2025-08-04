@@ -22,7 +22,7 @@ if exist "%UserProfile%\Videos\ffplay.exe" (
     echo "ffplay.exe not found."
 )
 REM How long do you need the Windows Desktop to wait before your launcher is loaded?
-timeout /t 10
+timeout /t 15
 start explorer.exe
 :check_ffplay
 tasklist /FI "IMAGENAME eq ffplay.exe" 2>NUL | find /I /N "ffplay.exe" >NUL
@@ -32,3 +32,4 @@ if "%ERRORLEVEL%"=="0" (
 ) else (
     call "%UserProfile%\Videos\random_boot_movie.bat"
 )
+
