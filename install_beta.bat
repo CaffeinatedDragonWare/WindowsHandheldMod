@@ -64,7 +64,7 @@ IF EXIST "%UserProfile%\Videos\startup.bat" (
 
 :LauncherSelection
 :: Prompt user for input
-set /p userInput=Which launcher would you like to use? [steam, playnite or custom]:
+set /p userInput=Which launcher would you like to use? [steam, s, playnite, p or custom, c]:
 echo .
 
 :: Handle different input options
@@ -111,10 +111,24 @@ echo .
 if /i "!userInput!"=="custom" (
     GOTO :Custom
 )
+
+if /i "!userInput!"=="c" (
+    GOTO :Custom
+)
+
 if /i "!userInput!"=="playnite" (
     GOTO :Playnite
 )
+
+if /i "!userInput!"=="p" (
+    GOTO :Playnite
+)
+
 if /i "!userInput!"=="steam" (
+    GOTO :Steam
+)
+
+if /i "!userInput!"=="s" (
     GOTO :Steam
 ) else (
     echo No valid option selected. Please try again.
@@ -355,31 +369,53 @@ if "!valid_input!"=="true" (
     echo Please google how to add an exception to your antivirus for this path:
     echo "%UserProfile%\Videos\invisible_startup.vbs".
     echo Otherwise, your antivirus will delete the .vbs script and cause issues with boot up.
-    set /p userResponse=If unsure, type default. [default or vbs]:
+    set /p userResponse=If unsure, type default. [default, d or vbs, v]:
     echo .
+    GOTO :DEFAULT
 
     if /i "!userResponse!"=="default" (
      :: Set the Shell entry in the registry
      reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%UserProfile%\Videos\!script!" /f
      echo Your shell has been changed.
      echo .
+     GOTO :DEFAULT
 
-    ) else if /i "!userResponse!"=="vbs" (
+    )
 
+    if /i "!userResponse!"=="d" (
+     :: Set the Shell entry in the registry
+     reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%UserProfile%\Videos\!script!" /f
+     echo Your shell has been changed.
+     echo .
+     GOTO :DEFENDER
+
+    )
+
+    if /i "!userResponse!"=="v" (
        copy "!directory!\invisible_startup.vbs" "%UserProfile%\Videos\" >nul
        echo Copied invisible_startup.vbs to your videos folder
        echo .
+    )
 
-       if /i "!status!"=="Running" (
+    if /i "!userResponse!"=="vbs" (
+       copy "!directory!\invisible_startup.vbs" "%UserProfile%\Videos\" >nul
+       echo Copied invisible_startup.vbs to your videos folder
+       echo .
+       GOTO :DEFENDER
+    )
+    
+    :: Looks for Windows Defender as part of installing the VBS script
+    :DEFENDER
+    if /i "!status!"=="Running" (
          echo Windows Defender is running.
          :: Adds an exclusion for the .vbs script
          powershell -Command "Add-MpPreference -ExclusionProcess '"%Userprofile%\Videos\invisible_startup.vbs"'"
          echo Exception set.
-       ) else (
+    ) else (
          echo Windows Defender is not running.
          echo No exception set.
          echo Please Google how to add an exception to your Antivirus for the VBS script.
-       )
+    )
 
     set "script=invisible_startup.vbs"
     :: Set the Shell entry in the registry
@@ -388,22 +424,20 @@ if "!valid_input!"=="true" (
     echo .
     echo Your shell has been changed.
     echo .
+    GOTO :DEFAULT
 
-    ) else (
-       GOTO :VBS
-    )
-
+    :DEFAULT
+    echo This mod has been successfully installed.
+    echo .
+    echo If you run into any issues, please run the uninstall script to undo these changes.
+    echo .
+    echo Note: Some antivirus programs might remove this mod.
+    echo If this happens to you, try creating exceptions in your antivirus for the scripts in your Videos folder.
+    echo .
+    pause
+    GOTO :END
 )
 
-echo This mod has been successfully installed.
-echo .
-echo If you run into any issues, please run the uninstall script to undo these changes.
-echo .
-echo Note: Some antivirus programs might remove this mod.
-echo If this happens to you, try creating exceptions in your antivirus for the scripts in your Videos folder.
-echo .
-pause
-
+:END
 :: End the script
 endlocal
-
