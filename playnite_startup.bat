@@ -33,5 +33,6 @@ if "%ERRORLEVEL%"=="0" (
     call "%UserProfile%\Videos\random_boot_movie.bat"
 )
 
-timeout /t 5
+timeout /t 10
 start explorer.exe
+
